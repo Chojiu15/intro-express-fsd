@@ -34,5 +34,38 @@ moviesRouter.post('/movies', (request, response) => {
     return response.status(201).json(newMovie)
 })
 
+moviesRouter.put('/movies/:id', (req, res) => {
+    const {id} = req.params
+    const {title, genre} = req.body
+    
+    let movieByID = movies.find(movie => movie.id === parseInt(id))
+    if(!movieByID){
+        return res.status(404).json({message : `Movie not found`})
+    }
+    movieByID = {
+        id : movieByID.id,
+        title : title || movieByID.title ,
+        genre : genre || movieByID.genre
+    }
+    return res.status(201).json(movieByID)
+})
+
+moviesRouter.delete('/movies/:id', (req, res) => {
+    const {id} = req.params
+    try{
+        let movieByID = movies.find(movie => movie.id === parseInt(id))
+        if(!movieByID){
+            return res.status(404).json({message : `Movie not found`})
+        }
+        const movieIndex = movies.indexOf(movieByID)
+        movies.splice(movieIndex, 1)
+        return res.status(202).json('Movie has been deleted')
+    }
+    catch(err){
+        console.log(err)
+        return res.status(500).json({message : 'Internal server error'})
+    }
+})
+
 
 export default moviesRouter
