@@ -18,9 +18,7 @@ app.get('/', (request, response) => {
 // Our first route that takes the path as first parameters, request and response and return a response
 
 
-
-
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })
-// the method listen is used to start our server
+// The method listen is used to start our server
